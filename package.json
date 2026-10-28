@@ -1,0 +1,24 @@
+{
+  "name": "wiki-trend-board-t04",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ALEPH T04 오늘의 진짜 정보판 — 데이터가 안 올 때 (한국어 위키백과 전일 최다 열람 문서 1위 조회수)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "verify": "node scripts/verify-all.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "~5.6.2",
+    "vite": "^5.4.11"
+  }
+}
+
