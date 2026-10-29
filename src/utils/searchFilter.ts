@@ -25,27 +25,21 @@ export function filterArticles(
   query: string,
   options?: SearchFilterOptions
 ): ArticleItem[] {
-  // [미완성] TC-10 실패 유도: null/undefined 예외 처리가 구현되지 않음
   if (articles === null || articles === undefined) {
-    throw new TypeError('articles must not be null or undefined');
+    return [];
   }
 
   const trimmed = query.trim();
+  const normalizedQuery = trimmed.toLocaleLowerCase();
 
-  // TC-01, TC-02 통과: 빈 검색어 시 전체 목록 반환
-  // (TC-09 실패 유도: options.minViews 필터링이 아직 미구현되어 minViews 옵션이 있어도 전체 반환)
-  if (trimmed === '') {
-    return articles;
-  }
+  return articles.filter((item) => {
+    const matchesQuery =
+      normalizedQuery === '' ||
+      item.article.toLocaleLowerCase().includes(normalizedQuery);
 
-  // TC-03 통과: "문화방송" 완전 일치 검색만 임시 지원
-  if (trimmed === '문화방송') {
-    return articles.filter((item) => item.article === '문화방송');
-  }
+    const matchesMinViews =
+      options?.minViews === undefined || item.views >= options.minViews;
 
-  // [미완성] TC-04 ~ TC-08 실패 유도:
-  // 부분 일치, 영문 대소문자 무시, 검색 결과 없음(빈 배열), 특수문자, 정규식 메타문자 안전 처리 등이 미구현되어
-  // 일치하지 않는 쿼리에서도 전체 목록을 반환함
-  return articles;
+    return matchesQuery && matchesMinViews;
+  });
 }
-
